@@ -1,123 +1,116 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import Modal from 'react-modal';
 
-const App = () => {
-  const [pokemonData, setPokemonData] = useState([]);
-  const [filteredPokemonData, setFilteredPokemonData] = useState([]);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [selectedPokemon, setSelectedPokemon] = useState(null);
-  const [typeFilter, setTypeFilter] = useState('');
-  const [nameFilter, setNameFilter] = useState('');
+function App() {
+  const [characters, setCharacters] = useState([]);
+  const [selectedSpecies, setSelectedSpecies] = useState("");
+  const [selectedType, setSelectedType] = useState("");
+  const [selectedNumber, setSelectedNumber] = useState("");
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=10000npm');
-        const results = response.data.results;
-        const pokemonPromises = results.map(async (pokemon) => {
-          const response = await axios.get(pokemon.url);
-          return response.data;
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=100")
+      .then(response => response.json())
+      .then(data => {
+        const promises = data.results.map(result =>
+          fetch(result.url).then(response => response.json())
+        );
+        Promise.all(promises).then(pokemonData => {
+          setCharacters(pokemonData);
         });
-        const data = await Promise.all(pokemonPromises);
-        setPokemonData(data);
-        setFilteredPokemonData(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
+      })
+      .catch(error => console.log(error));
   }, []);
 
-  const filterByType = () => {
-    const filteredData = pokemonData.filter((pokemon) => {
-      const matchesType = pokemon.types.some((t) => t.type.name === typeFilter);
-      const matchesName = pokemon.name.toLowerCase().includes(nameFilter.toLowerCase());
-      return matchesType && matchesName;
-    });
-    setFilteredPokemonData(filteredData);
-    setVisibleCards(20);
-  };
-  const showMoreCards = () => {
-    setVisibleCards((prevVisibleCards) => prevVisibleCards + 20);
+  const handleSpeciesChange = (event) => {
+    setSelectedSpecies(event.target.value);
   };
 
-  const resetFilters = () => {
-    setFilteredPokemonData(pokemonData);
-    setTypeFilter('');
-    setVisibleCards(20);
+  const handleTypeChange = (event) => {
+    setSelectedType(event.target.value);
   };
 
-  const handlePokemonClick = (pokemon) => {
-    setSelectedPokemon(pokemon);
-    setIsPopupOpen(true);
+  const handleNumberChange = (event) => {
+    setSelectedNumber(event.target.value);
   };
 
-  const PokemonCard = ({ name, imageUrl, species, types, abilities }) => {
-    return (
-      <div className="pokemon-card">
-        <img src={imageUrl} alt={name} onClick={() => handlePokemonClick({ name, imageUrl, species, types, abilities })} />
-        <h3>{name}</h3>
-        <p>Species: {species}</p>
-        <p>Types: {types.join(', ')}</p>
-        <p>Abilities: {abilities.join(', ')}</p>
-      </div>
-    );
+  const handleCardClick = (character) => {
+    setSelectedCharacter(character);
   };
 
-  const PokemonPopup = ({ pokemon, onClose }) => {
-    return (
-      <div className="pokemon-popup">
-        <div className="popup-content">
-          <img src={pokemon.imageUrl} alt={pokemon.name} />
-          <h3>{pokemon.name}</h3>
-          <p>Species: {pokemon.species}</p>
-          <p>Types: {pokemon.types.join(', ')}</p>
-          <p>Abilities: {pokemon.abilities.join(', ')}</p>
-          <button onClick={onClose}>Close</button>
-        </div>
-      </div>
-    );
+  const handleCloseModal = () => {
+    setSelectedCharacter(null);
   };
+
+  const filteredCharacters = characters.filter(character => {
+    if (selectedSpecies && !character.name.includes(selectedSpecies)) {
+      return false;
+    }
+    if (selectedType && !character.types.some(type => type.type.name === selectedType)) {
+      return false;
+    }
+    if (selectedNumber && character.id !== parseInt(selectedNumber)) {
+      return false;
+    }
+    return true;
+  });
 
   return (
-    <div className="pokemon-container" style={{ backgroundColor: 'black' }}>
-      <div className="filter-buttons">
-        <input
-          type="text"
-          value={typeFilter}
-          onChange={(e) => setTypeFilter(e.target.value)}
-          placeholder="Enter type"
-        />
-        
-        <button onClick={filterByType}>Filter</button>
-        
+    <div className="container">
+      <h1>Pokémon</h1>
+      <div className="filter-container">
+        <label htmlFor="species">Search by Name:</label>
+        <input type="text" id="species" value={selectedSpecies} onChange={handleSpeciesChange} />
+        <label htmlFor="type">Filter by Type:</label>
+        <input type="text" id="type" value={selectedType} onChange={handleTypeChange} />
+        <label htmlFor="number">Filter by Number:</label>
+        <input type="text" id="number" value={selectedNumber} onChange={handleNumberChange} />
       </div>
-      
-
-      <div className="pokemon-cards-container">
-        {filteredPokemonData.map((pokemon) => (
-          <PokemonCard
-            key={pokemon.id}
-            name={pokemon.name
-
-}
-            imageUrl={pokemon.sprites.front_default}
-            species={pokemon.species.name}
-            types={pokemon.types.map((type) => type.type.name)}
-            abilities={pokemon.abilities.map((ability) => ability.ability.name)}
-          />
+      <div className="card-container">
+        {filteredCharacters.map(character => (
+          <div key={character.name} className="card" onClick={() => handleCardClick(character)}>
+            <h2>{character.name}</h2>
+            <p>Species: {character.species.name}</p>
+            <p>Type: {character.types.map(type => type.type.name).join(", ")}</p>
+            <img src={character.sprites.front_default} alt={character.name} />
+            <p>Number: {character.id}</p>
+            <p>Weight: {character.weight}</p>
+            <p>Habilidades: {character.abilities.map(ability => ability.ability.name).join(", ")}</p>
+            <p>Estadísticas: {character.stats.map(stat => `${stat.stat.name}: ${stat.base_stat}`).join(", ")}</p>
+            <p>Movimientos: {character.moves.map(move => move.move.name).join(", ")}</p>
+            <p>Evolución: {character.evolution_chain ? character.evolution_chain : 'No evolution'}</p>
+            <p>Movimientos especiales: {character.special_moves ? character.special_moves.join(", ") : 'No special moves'}</p>
+            <p>Descripción: {character.description ? character.description : 'No description'}</p>
+            <p>Estadísticas  combate: Ataque: {character.attack}, Defensa: {character.defense}, Velocidad: {character.speed}</p>
+            <p>Habilidades ocultas: {character.hidden_abilities ? character.hidden_abilities.join(", ") : 'No hidden abilities'}</p>
+            <p>Ubicación: {character.location ? character.location : 'Unknown location'}</p>
+            
+          </div>
         ))}
       </div>
-
-      {isPopupOpen && selectedPokemon && (
-        <PokemonPopup pokemon={selectedPokemon} onClose={() => setIsPopupOpen(false)} />
-      )}
-   </div>
+      <Modal
+         isOpen={selectedCharacter !== null}
+         onRequestClose={handleCloseModal}
+         contentLabel="Character Details"
+         className="modal"
+         overlayClassName="overlay"
+       >
+         {selectedCharacter && (
+           <div>
+             <h2>{selectedCharacter.name}</h2>
+             <img src={selectedCharacter.sprites.front_default} alt={selectedCharacter.name} />
+             <p>Type: {selectedCharacter.types.map(type => type.type.name).join(", ")}</p>
+             <p>Species: {selectedCharacter.species.name}</p>
+             <button className="close-button" onClick={handleCloseModal}>
+               Close
+             </button>
+           </div>
+         )}
+      </Modal>
+    </div>
   );
-};
-
-
+}
 
 export default App;
+
