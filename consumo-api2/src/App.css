@@ -107,10 +107,15 @@ h1 {
   color: yellow;
   font-size: 70px !important;
   font-family: 'Courier New', Courier, monospace;
+  border-radius: 50%; 
+  background-color: red;
+  padding: 10px;
+  text-align: center 
+
 }
 .filter-container{
   color:yellow;
-  background-color: rgb(44, 99, 99);
+  background-color: red;
   margin-bottom: 30px;
   margin-top: 30px;
   font-weight: bold;

@@ -1,0 +1,32 @@
+{
+  "hash": "e862bcdd",
+  "browserHash": "b88df7fe",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "164c694f",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "db6c83f0",
+      "needsInterop": true
+    },
+    "react-modal": {
+      "src": "../../node_modules/react-modal/lib/index.js",
+      "file": "react-modal.js",
+      "fileHash": "6530e95b",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-NWRZZCC6": {
+      "file": "chunk-NWRZZCC6.js"
+    },
+    "chunk-WCYUDUTY": {
+      "file": "chunk-WCYUDUTY.js"
+    }
+  }
+}

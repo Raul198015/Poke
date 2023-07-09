@@ -78,15 +78,8 @@ function App() {
             <p>Weight: {character.weight}</p>
             <p>Habilidades: {character.abilities.map(ability => ability.ability.name).join(", ")}</p>
             <p>Estadísticas: {character.stats.map(stat => `${stat.stat.name}: ${stat.base_stat}`).join(", ")}</p>
-            <p>Movimientos: {character.moves.map(move => move.move.name).join(", ")}</p>
-            <p>Evolución: {character.evolution_chain ? character.evolution_chain : 'No evolution'}</p>
-            <p>Movimientos especiales: {character.special_moves ? character.special_moves.join(", ") : 'No special moves'}</p>
-            <p>Descripción: {character.description ? character.description : 'No description'}</p>
             <p>Estadísticas  combate: Ataque: {character.attack}, Defensa: {character.defense}, Velocidad: {character.speed}</p>
-            <p>Habilidades ocultas: {character.hidden_abilities ? character.hidden_abilities.join(", ") : 'No hidden abilities'}</p>
-            <p>Ubicación: {character.location ? character.location : 'Unknown location'}</p>
-            
-          </div>
+            </div>
         ))}
       </div>
       <Modal
