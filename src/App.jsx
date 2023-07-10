@@ -27,9 +27,7 @@ function App() {
   const handleSpeciesChange = (event) => {
     setSelectedSpecies(event.target.value.toLowerCase());
   };
-  
 
-  
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
   };
@@ -84,7 +82,7 @@ function App() {
             <img src={character.sprites.front_default} alt={character.name} />
             <p>Species: {character.species.name}</p>
             <p>Type: {character.types.map(type => type.type.name).join(", ")}</p>
-            
+
             <p>Number: {character.id}</p>
             <p>Weight: {character.weight}</p>
             <p>Habilidades: {character.abilities.map(ability => ability.ability.name).join(", ")}</p>
@@ -95,7 +93,7 @@ function App() {
       </div>
       <Modal
          isOpen={selectedCharacter !== null}
-         onRequestClose={handleCloseModal}
+         onRequestClose={         handleCloseModal}
          contentLabel="Character Details"
          className="modal"
          overlayClassName="overlay"
@@ -106,7 +104,7 @@ function App() {
              <img src={selectedCharacter.sprites.front_default} alt={selectedCharacter.name} />
              <p>Type: {selectedCharacter.types.map(type => type.type.name).join(", ")}</p>
              <p>Species: {selectedCharacter.species.name}</p>
-            
+
              <button className="close-button" onClick={handleCloseModal}>
                Close
              </button>
@@ -118,3 +116,5 @@ function App() {
 }
 
 export default App;
+
+
