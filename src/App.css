@@ -1,0 +1,102 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center; 
+  background-image: url('./img/SI_Pokemon_image1280w.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  }
+  
+
+
+.card {
+  background-color: rgb(223, 223, 30);
+  padding: 10px;
+  text-align: center;
+  border: solid 10px rgb(122, 120, 235);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  width: 300px; 
+}
+
+.card img {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border: solid 3px rgb(122, 120, 235);
+  border-radius: 5px;
+}
+
+.card h2 {
+  margin-top: 5px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.card p {
+  margin-top: 5px;
+  font-size: 18px;
+  color:black;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+  justify-items: center; 
+}
+
+
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: red;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  border:solid 8px
+}
+
+.modal img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border: solid 5px black;
+  border-radius: 10px;
+}
+
+.modal button {
+  display: block;
+  margin: 20px auto;
+}
+
+
+h1 {
+  color: yellow;
+  font-size: 70px !important;
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.filter-container {
+  color: yellow;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  margin-bottom: 30px;
+}
+.card h2{
+  color: yellow;
+  font-size: 30px;
+
+}
