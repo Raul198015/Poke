@@ -12,7 +12,7 @@ body {
 
 
 .card {
-  background-color: rgb(223, 223, 30);
+  background-color: none;
   padding: 10px;
   text-align: center;
   border: solid 10px rgb(122, 120, 235);
@@ -23,13 +23,13 @@ body {
   width: 300px; 
   perspective: 1000px;
   transition: transform 0.5s;
- 
+   
 }
 
 
 
 .card:hover {
-  transform: rotateY(180deg);
+  transform: rotateY(360deg);
 }
 
 
@@ -41,6 +41,7 @@ body {
   object-fit: cover;
   border: solid 3px rgb(122, 120, 235);
   border-radius: 5px;
+  background-color:yellow;
 }
 
 .card h2 {
@@ -52,7 +53,8 @@ body {
 .card p {
   margin-top: 5px;
   font-size: 18px;
-  color:black;
+  font-weight: bold;
+  color:yellow;
 }
 
 .card-container {
